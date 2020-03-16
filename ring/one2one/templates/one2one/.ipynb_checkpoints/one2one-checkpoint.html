@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head lang="ja">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Ring --Free video chat with smile measure--</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <script defer src="https://use.fontawesome.com/releases/v5.6.1/js/all.js" integrity="sha384-R5JkiUweZpJjELPWqttAYmYM1P3SNEJRM6ecTQF05pFFtxmCO+Y1CiUhvuDzgSVZ" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ STATIC_URL }}one2one/style.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}one2one/slick/slick.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}one2one/slick/slick-theme.css">
+</head>
+<body>
+<div class="header">
+  <h1>Ring</h1>
+  <p>No account !　No limit !　Free calling !!</p>
+</div>
+
+<div class="pure-g">
+  <div class="id_area">
+      
+    <div class="id_area_back" id="state">
+      <div class="pure-u-1-3">
+        <h4>
+            <i class="fas fa-user" style="margin-right:7px; color:#F7BC1A; font-size:20px;"></i>
+            Your id:<span id="my-id">{{ myid }}</span>
+        </h4>
+        <!--<center>--><p id="sharecomment">Share this id with others so they can call you.</p>
+          <form id="make-call" class="pure-form">
+              <input type="text" placeholder="Call user id..." id="callto-id" value="{{ opponents_id }}">
+              <button id="callbutton" href="#" class="pure-button pure-button-success" type="button"><i class="fas fa-phone fa-flip-horizontal"></i>Call</button>
+          </form>
+            
+          <form id="reaccess" class="pure-form" method="post" action="/one2one/reaccess">
+            {% csrf_token %}
+            <input hidden name="myid" value="{{ myid }}">
+            <input hidden name="opponents_id" value="{{ opponents_id }}">
+            <input hidden name="mode" value="{{ mode }}">
+            <button href="#" class="pure-button pure-button-success" type="submit">Reload in same id</button>
+          </form>
+            
+          <form id="end-call" class="pure-form">
+              <p>Currently in call with <span id="their-id" name="opponents_id">...</span></p>
+              <button href="#" class="pure-button pure-button-success" type="button">End Call</button>
+          </form>
+          <!--</center>-->
+        </div>
+      </div>
+      
+      <div class="form_area_back">
+        <div class="pure-u-1-4">
+          <center>
+            <form  action="/one2one/create" method="post" id="makeurl" class="pure-form">
+              {% csrf_token %}
+              <p><input type="text" name="myname" placeholder="your nickname"　required="required" style="postion:relative"></p>
+              <p><input type="email" name="opponents-address" placeholder="partner's e-mail address" required="required"></p>
+              <input hidden type="text" name="myid" id="myid_form" value="{{ myid }}">
+              <input hidden name="age" value="{{ age }}">
+              <input hidden name="gender" value="{{ gender }}">
+              <input hidden name="job" value="{{ job }}">
+              <input class="pure-button pure-button-success" type="submit" name="submit" value="Send URL for partner" />
+            </form>
+         </center>
+       </div>
+    </div>
+      
+  </div>
+
+    <!-- Video area -->
+    <div class="left">
+      <div class="pure-u-2-3" id="video-container">
+          <video id="their-video" autoplay playsinline="true"></video>
+          <video id="my-video" muted="true" autoplay playsinline="true"></video>
+		  <canvas id="myvideo-canvas"></canvas>
+          <canvas id="canvas"></canvas>
+      </div>
+    </div>
+
+  <div class="right">
+    <div class="judge ">
+      <div class="text">
+          <h4><i class="fas fa-grin-squint-tears" sytle="display:inline;"></i>Emotion Measure</h4>
+          <p>You can measure emotion of the opponent</p>
+        <div><button href="#" class="pure-button pure-button-success" type="button" id="changegraph">Change Emotion Graph</button></div>
+      </div>
+
+    　<div class="canvas-wrapper">
+      　<canvas id="canvas1" height=300></canvas>
+      　<canvas id="canvas2"></canvas>
+      　<canvas id="canvas3"></canvas>
+        <!--<canvas id="canvas4"></canvas>-->
+    　</div>
+    </div><!--judge-->
+
+  </div><!--right-->
+
+  <div class="left2">
+    <h4><i class="fas fa-comments"></i>Chat space</h4>
+    <div id="actions" class="actions">
+      <form id="send_text">
+        <input type="text" id="text" placeholder="Enter message">
+        <input class="button" type="submit" value="Send">
+      </form>
+    </div>
+
+    <div id="wrap">
+      <div id="connections" class="conections">
+        <span class="filler">You have not made any connections yet</span>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div><!--left2-->
+
+  <div class="right2">
+    <div id="box" class="file">
+      Drag file here to send to active connections
+    </div>
+  </div>
+    
+<div id=hidden>
+    <p hidden id="mode">{{ mode }}</p>
+    <p hidden id="creater_id">{{ opponents_id }}</p>
+    <p hidden id="login">login</p>
+</div>
+    
+
+<!-- 
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.3"></script> 
+<script src= 'https://docs.opencv.org/3.4.3/opencv.js'></script>
+<script type="text/javascript" src="chat_JS.js"></script>
+-->
+    <script src="https://cdn.webrtc.ecl.ntt.com/skyway-latest.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
+    <script src="{{ STATIC_URL }}one2one/js/jquery.min.js"></script>  
+    <script src="{{ STATIC_URL }}one2one/js/tensorflow.min.js"></script> 
+    <script src="{{ STATIC_URL }}one2one/js/utils.js"></script>
+    <script src="{{ STATIC_URL }}one2one/tracking/build/tracking-min.js"></script> 
+    <script src="{{ STATIC_URL }}one2one/tracking/build/data/face-min.js"></script> 
+    <script src="{{ STATIC_URL }}one2one/tracking/src/alignment/training/Landmarks.js"></script> 
+    <script src="{{ STATIC_URL }}one2one/tracking/src/alignment/training/Regressor.js"></script>
+    <script src="{{ STATIC_URL }}one2one/js/ChangeUI.js"></script>
+    <script src="{{ STATIC_URL }}one2one/js/one2one.js"></script>
+    <script src="{{ STATIC_URL }}one2one/js/graph.js"></script> 
+</body>
+</html>
+
