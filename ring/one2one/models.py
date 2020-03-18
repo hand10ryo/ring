@@ -16,8 +16,7 @@ BODY = """
 
 def create_message(to_addr, myname, oid, myid):
     "メールのメッセージ文を作成する関数"
-    # url = "https://ring.enfree-jp.com/one2one/created?myid={}&opponents_id={}".format(oid,myid) #cnameに変更する！
-    url = f"127.0.0.1:8000/one2one/created?myid={oid}&opponents_id={myid}"
+    url = f"https://ring.enfree-jp.com/one2one/created?myid={oid}&opponents_id={myid}"
     msg = MIMEText(BODY.format(myname, url))
     msg['Subject'] = SUBJECT
     msg['From'] = FROM_ADDRESS

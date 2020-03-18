@@ -26,10 +26,10 @@ except ImportError:
     pass
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-#DEBUG = False
-ALLOWED_HOSTS = ["*"]
-#ALLOWED_HOSTS = ['ringenv1.cjksmxyjzz.ap-northeast-1.elasticbeanstalk.com','ring.enfree-jp.com','127.0.0.1']
+#DEBUG = True
+DEBUG = False
+#ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['ringenv1.cjksmxyjzz.ap-northeast-1.elasticbeanstalk.com','ring.enfree-jp.com','127.0.0.1']
 
 
 # Application definition

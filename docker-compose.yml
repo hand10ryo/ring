@@ -2,9 +2,12 @@ version: "3"
 
 services:
   nginx:
-    image: nginx:1.13
-    ports:
-      - "8000:8000"
+    image: nginx:stable
+    container_name: ring_nginx_1
+    #ports:
+    #  - "8000:8000"
+    environment:
+      - VIRTUAL_HOST=ring.enfree-jp.com
     volumes:
       - ./nginx/conf:/etc/nginx/conf.d
       - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
@@ -21,21 +24,8 @@ services:
       - ./static:/static
     expose:
       - "8001"
-    depends_on:
-      - db
 
-  db:
-    image: mysql:5.7
-    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    ports:
-      - "3306:3306"
-    privileged: true
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: ring
-      MYSQL_USER: ring_user
-      MYSQL_PASSWORD: ring_password
-      TZ: 'Asia/Tokyo'
-    volumes:
-      - ./mysql:/var/lib/mysql
-      - ./sql:/docker-entrypoint-initdb.d
+networks:
+  default:
+    external:
+      name: product
