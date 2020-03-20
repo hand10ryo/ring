@@ -3,11 +3,11 @@ version: "3"
 services:
   nginx:
     image: nginx:stable
-    container_name: ring_nginx_1
+    container_name: ringnginx1
     #ports:
     #  - "8000:8000"
     environment:
-      - VIRTUAL_HOST=ring.enfree-jp.com
+      - VIRTUAL_HOST=mydev.ring.development.com
     volumes:
       - ./nginx/conf:/etc/nginx/conf.d
       - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
@@ -17,6 +17,7 @@ services:
 
   python:
     build: ./python
+    container_name: ringpython1
     command: uwsgi --socket :8001 --module ring.wsgi --py-autoreload 1 --logto /tmp/mylog.log
     volumes:
       #- ./src:/code
@@ -28,4 +29,4 @@ services:
 networks:
   default:
     external:
-      name: product
+      name: mydev

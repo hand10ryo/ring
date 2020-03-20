@@ -3,3 +3,4 @@ mysql/*
 /ring/one2one/mail.py
 /ring/ring/local_settings.py
 __pycache__
+config.ini
