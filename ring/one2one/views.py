@@ -4,7 +4,7 @@ import random
 from django.shortcuts import redirect, render
 from django.template.context_processors import csrf
 
-from .models import send, create_message
+from .models import send
 
 
 def index(request):
@@ -62,11 +62,10 @@ def create(request):
         gender = request.POST.get("gender")
         job = request.POST.get("job")
         opponents_id = get_random_id()
-        msg = create_message(TO_ADDRESS, myname, opponents_id, myid)
 
         # メールを送信
         try:
-            send(msg, TO_ADDRESS)
+            send(TO_ADDRESS, myname, opponents_id, myid)
             context = {
                 'myid': myid,
                 'opponents_id': opponents_id,
